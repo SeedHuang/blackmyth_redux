@@ -1,0 +1,10 @@
+@import '@global/var';
+
+.table__body__row {
+    border-bottom: 1px solid $bdColor1;
+    display: flex;
+    flex-wrap: nowrap;
+    &:last-of-type {
+        border-bottom: 0;
+    }
+}

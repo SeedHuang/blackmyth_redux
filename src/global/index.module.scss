@@ -1,0 +1,26 @@
+
+
+/* 文字超过一行省略 */
+.word-ellipsis-1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    
+.word-ellipsis-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    
+.word-ellipsis-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

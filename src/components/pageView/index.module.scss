@@ -1,0 +1,18 @@
+@import '@global/var';
+
+.pageview {
+    height: 100%;
+    position: relative;
+    .pageview__footer {
+        position: absolute;
+        height: 40px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: $paddingL;
+        display: flex;
+        justify-content: flex-end;
+        border-top: 1px solid $bdColor1;
+        background-color: $bgColor1;
+    }
+}

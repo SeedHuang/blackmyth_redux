@@ -1,0 +1,19 @@
+@import '@global/var';
+
+.toolbar {
+    padding: $paddingL;
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid $bdColor1;
+    &__left {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    &__right {
+        flex-basis: 200px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

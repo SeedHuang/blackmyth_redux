@@ -1,0 +1,23 @@
+@import '@global/var';
+
+.windowDialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    min-width: 200px;
+    min-height: 100px;
+    background: $bgColor1;
+    padding: $paddingL;
+    
+    &__content {
+        min-height: 100px;
+        display: flex;
+        justify-content: center;
+    }
+    &__footer {
+        height: 50px;
+        display: flex;
+        justify-content: center;;
+    }
+}

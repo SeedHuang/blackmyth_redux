@@ -1,0 +1,37 @@
+@import '@global/var';
+
+.table {
+    border: 1px solid $bdColor1;
+    &__header {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        border-bottom: 1px solid $bdColor1;
+        &__th {
+            background: #eee;
+            border-right: 1px solid $bdColor1;
+            color: $fontColor1;
+            &:last-of-type {
+                border-right: 0;
+            }
+        }
+    }
+    &__body {
+        &__row {
+            border-bottom: 1px solid $bdColor1;
+            &:last-of-type {
+                border-bottom: 0;
+            }
+            display: flex;
+            flex-wrap: nowrap;
+            &__td {
+                word-break: break-all;
+                white-space: 0;
+                border-right: 1px solid $bdColor1;
+                &:last-of-type {
+                    border-right: 0;
+                }
+            }
+        }
+    }
+}

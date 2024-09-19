@@ -1,0 +1,13 @@
+@import '@global/var';
+
+.button {
+    display: flex;
+    border: 1px solid $bdColor1;
+    color: $fontColor1;
+    height: 40px;
+    padding: 0 $paddingL;
+    align-items: center;
+    background-color: $bgColor1;
+    margin: $marginS;
+    border-radius: $bdRadiusS;
+}

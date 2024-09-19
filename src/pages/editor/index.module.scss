@@ -1,0 +1,39 @@
+@import '@global/var';
+
+.pageview {
+    &__footer {
+        height: 50px;
+        display: flex;
+    }
+}
+
+.pageForm {
+    &__row {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        &__th {
+            flex-basis: 80px;
+            display: flex;
+            color: $fontColor1;
+            padding: $paddingL;
+        }
+
+        &__td {
+            flex-grow: 1;
+            padding: $paddingL;
+            display: flex;
+            input,select, textarea {
+                flex-grow: 1;
+            }
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+            }
+            
+            textarea {
+                height: 400px;
+            }
+        }
+    }
+}

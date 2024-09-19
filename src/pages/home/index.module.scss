@@ -1,0 +1,13 @@
+@import '@global/var';
+div.wrapper {
+    border: 1px solid $bdColor1;
+    .title {
+        color: $blue;
+    }
+}
+
+div.rage {
+    .title {
+        color: $pink;
+    }
+}

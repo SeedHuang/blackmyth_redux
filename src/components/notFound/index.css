@@ -1,0 +1,12 @@
+.notFound {
+    position: relative;
+    padding: 10px 0;
+}
+
+.notFound__img {
+    width: 90%;
+    padding-top: 55%;
+    background-size: 100% 100%;
+    background-image: url('./imgs/404.png');
+    margin: 0 auto;
+}
