@@ -80,24 +80,20 @@ export default function Units() {
     ];
 
     useEffect(()=>{
-        (async function() {
-            try {
-                const response = await dispatch(fetchGetUnits())
-            } catch(e) {
-                console.log(e, '>>>>>>>>>>>')
-            }
-        })();
+        dispatch(fetchGetUnits());
     }, []);
+    
     useEffect(() => {
         if(errorMessage) {
             showMessageBox({content: errorMessage});
         }
     }, [errorMessage]);
 
-    function onAddClick () {
+    const onAddClick = useCallback(()=>{
         dispatch(setId(''));
         dispatch(setShowEditor(true));
-    }
+    });
+
     const onEditorConfirmClick =  useCallback(()=>{
         dispatch(setShowEditor(false));
         dispatch(fetchGetUnits());

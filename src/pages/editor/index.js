@@ -9,14 +9,18 @@ import {
 } from '@store/modules/editor';
 import { useSelector, useDispatch } from 'react-redux';
 import PageView from '@components/pageView';
+import { useShowMessageBox } from '@hooks/global';
+
 import classes from './index.module.scss';
 
 function EditorPage(props) {
     const {onConfirmClick, onCancelClick } = props;
+    const showMessageBox = useShowMessageBox();
     const dispatch = useDispatch();
     const {
         categories,
-        currentRecord
+        currentRecord,
+        errorMessage
     } = useSelector(( state )=> {
         return state.editor;
     });
@@ -31,17 +35,17 @@ function EditorPage(props) {
     
     const onAddClick = useCallback(() => {
         (async function() {
-            try {
-                if (!!id) {
-                    await dispatch(fetchUpdateUnitInfo())
-                } else {
-                    await dispatch(fetchAddUnitInfo());
-                }
-            } catch (e) {
-                console.log(e);
-            } finally {
+            let response = null;
+            if (!!id) {
+                response = await dispatch(fetchUpdateUnitInfo())
+            } else {
+                response = await dispatch(fetchAddUnitInfo());
+            }
+            if (!response.error) {
                 dispatch(resetCurrentRecord());
                 onConfirmClick();
+            } else {
+                showMessageBox({content: response.error.message});
             }
         })();
     }, [id]);
@@ -75,6 +79,7 @@ function EditorPage(props) {
             }
         })()
     }, [props.id]);
+
 
     return (
         <PageView footer={

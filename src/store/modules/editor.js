@@ -3,7 +3,6 @@ import { addUnitInfo, updateUnitInfo, getCategories, getUnitById } from '@api';
 
 
 export const fetchAddUnitInfo = createAsyncThunk('unit/addUnitInfo', async function(state, thunkApi) {
-    debugger;
     try {
         const {
             title,
@@ -135,7 +134,6 @@ const editorSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchAddUnitInfo.fulfilled, (state, action) => {
-            console.log('fetchAddUnitInfo response:', action.payload);
             state.isLoading = false;
             state.currentRecord.id = action.payload;
         })
@@ -147,36 +145,30 @@ const editorSlice = createSlice({
             state.errorMessage = action.error.message;
         })
         .addCase(fetchUpdateUnitInfo.fulfilled, (state, action) => {
-            console.log('fetchUpdateUnitInfo response:', action.payload);
             state.currentRecord.id = action.payload;
         })
-        .addCase(fetchUpdateUnitInfo.pending, (state, action) => {
+        .addCase(fetchUpdateUnitInfo.pending, (state) => {
             state.isLoading = true;
-            
         })
         .addCase(fetchUpdateUnitInfo.rejected, (state, action) => {
             state.isLoading = false;
             state.errorMessage = action.error.message;
         })
         .addCase(fetchGetCategories.fulfilled, (state, action) => {
-            console.log('fetchGetCategories response:', action.payload);
             state.categories = action.payload;
         })
-        .addCase(fetchGetCategories.pending, (state, action) => {
+        .addCase(fetchGetCategories.pending, (state) => {
             state.isLoading = true;
-            
         })
         .addCase(fetchGetCategories.rejected, (state, action) => {
             state.isLoading = false;
             state.errorMessage = action.error.message;
         })
         .addCase(fetchGetUnitById.fulfilled, (state, action) => {
-            console.log('fetchGetUnitById response:', action.payload);
             state.currentRecord = action.payload;
         })
-        .addCase(fetchGetUnitById.pending, (state, action) => {
+        .addCase(fetchGetUnitById.pending, (state) => {
             state.isLoading = true;
-            
         })
         .addCase(fetchGetUnitById.rejected, (state, action) => {
             state.isLoading = false;
