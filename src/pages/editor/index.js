@@ -1,120 +1,111 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 import Button from '@components/button';
 import FileUploader from '@components/fileUploader';
 import { addUnitInfo, getCategories, getUnitById, updateUnitInfo } from '@api';
 import { useGetUnitById } from '@hooks/fetchs/units';
+import { 
+    setId, setTitle, setBreif, setDetail, setCate, setImageUrl, setCurrentRecord, resetCurrentRecord,
+    fetchAddUnitInfo, fetchUpdateUnitInfo, fetchGetCategories, fetchGetUnitById, fetchGetUnits 
+} from '@store/modules/editor';
+import { useSelector, useDispatch } from 'react-redux';
 import PageView from '@components/pageView';
 import classes from './index.module.scss';
 
 function EditorPage(props) {
     const {onConfirmClick, onCancelClick } = props;
-    const [id, setId] = useState(props.id);
-    const [title, setTitle] = useState('');
-    const [breif, setBreif] = useState('');
-    const [detail, setDetail] = useState('');
-    const [cate, setCate] = useState('');
-    const [categories, setCategories] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
+    const dispatch = useDispatch();
+    const {
+        categories,
+        currentRecord
+    } = useSelector(( state )=> {
+        return state.editor;
+    });
+    const {
+        id,
+        title,
+        breif,
+        detail,
+        cate,
+        imageurl
+    } = currentRecord;
     
-    
-    const onAddClick = async () => {
-        if (!!id) {
+    const onAddClick = useCallback(() => {
+        (async function() {
             try {
-                const response = await updateUnitInfo({
-                    id,
-                    title,
-                    breif,
-                    detail,
-                    cate,
-                    imageUrl
-                });
-                onConfirmClick(response);
-            } catch(e) {
+                if (!!id) {
+                    await dispatch(fetchUpdateUnitInfo())
+                } else {
+                    await dispatch(fetchAddUnitInfo());
+                }
+            } catch (e) {
                 console.log(e);
+            } finally {
+                dispatch(resetCurrentRecord());
+                onConfirmClick();
             }
-        } else {
-            try {
-                const response = await addUnitInfo({
-                    title,
-                    breif,
-                    detail,
-                    cate,
-                    imageUrl
-                });
-                onConfirmClick(response);
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        
-        
-    };
-    const onResetClick = () => {
-        setTitle('');
-        setBreif('');
-        setDetail('');
-        setCate('');
-        setImageUrl('');
-        onCancelClick();
-    };
+        })();
+    }, [id]);
 
-    useEffect(()=>{
-        async function fetchData() {
-            const result = await getCategories();
-            setCategories(result.data.categories);
-        }
-        fetchData();
+    const onResetClick =  useCallback(() => {
+        dispatch(resetCurrentRecord())
+        onCancelClick();
+    }, []);
+
+    const onTitleChange = useCallback( e => {
+       dispatch(setTitle(e.target.value));
+    }, []);
+    const onBreifChange = useCallback( e => {
+        dispatch(setBreif(e.target.value));
+    }, []);
+    const onDetailChange = useCallback( e => {
+        dispatch(setDetail(e.target.value));
+    }, []);
+    const onCateChange = useCallback( e =>{
+        dispatch(setCate(e.target.value));
+    }, []);
+    const onImageUrlChange = useCallback( newUrl => {
+        dispatch(setImageUrl(newUrl))
     }, []);
     
     useEffect(()=>{
-        if(!!id) {
-            async function fetchGetUnitById(_id) {
-                    try {
-                        const { data } = await getUnitById(_id);
-                        console.log('data is :', data);
-                        setTitle(data.title);
-                        setDetail(data.detail);
-                        setBreif(data.breif);
-                        setCate(data.cate);
-                        setImageUrl(data.imageurl);
-                    } catch(e) {
-                        console.log(e);
-                    }
+        (async function (){
+            await dispatch(fetchGetCategories());
+            if(props.id) {
+                await dispatch(fetchGetUnitById(props.id));
             }
-            fetchGetUnitById(id)
-        }
-    }, [id])
+        })()
+    }, [props.id]);
 
-    
-    
     return (
         <PageView footer={
             [
-                (<Button text={!!id ? "修改" : "添加"} key="key__button__add" onClick={onAddClick}/>),
-                (<Button text="取消" key="key__button__reset" onClick={onResetClick}/>)
+                (<Button type="confirm" text={!!id ? "修改" : "添加"} key="key__button__add" onClick={onAddClick}/>),
+                (<Button type="cancel" text="取消" key="key__button__reset" onClick={onResetClick}/>)
             ]
         }>
             <div className={classes.pageForm}>
                 <div className={classes.pageForm__row}>
                     <div className={classes.pageForm__row__th}>名称</div>    
-                    <div className={classes.pageForm__row__td}><input type="text" value={title}  onChange={(value)=>{setTitle(value.target.value)}}/></div>
+                    <div className={classes.pageForm__row__td}>
+                        <input type="text" value={title}  onChange={onTitleChange}/>
+                    </div>
                 </div>
                 <div className={classes.pageForm__row}>
                     <div className={classes.pageForm__row__th}>简介</div>    
                     <div className={classes.pageForm__row__td}>
-                        <textarea value={breif} style={{height: '100px'}}onChange={(value)=>{setBreif(value.target.value)}}></textarea>
+                        <textarea value={breif} style={{height: '100px'}} onChange={ onBreifChange }></textarea>
                     </div>
                 </div>
                 <div className={classes.pageForm__row}>
                     <div className={classes.pageForm__row__th}>详情</div>    
                     <div className={classes.pageForm__row__td}>
-                        <textarea value={detail} onChange={(value)=>{setDetail(value.target.value)}}></textarea>
+                        <textarea value={detail} onChange={ onDetailChange }></textarea>
                     </div>
                 </div>
                 <div className={classes.pageForm__row}>
                     <div className={classes.pageForm__row__th}>类别</div>    
                     <div className={classes.pageForm__row__td}>
-                        <select value={cate}  onChange={ (result) => { setCate(result.target.value) } }>
+                        <select value={cate}  onChange={ onCateChange }>
                             {
                                 categories.map(({label, value}, index) => {
                                     return (<option key={`key_option_${value}`} value={value}>{label}</option>)
@@ -126,7 +117,7 @@ function EditorPage(props) {
                 <div className={classes.pageForm__row}>
                     <div className={classes.pageForm__row__th}>图片</div>    
                     <div className={classes.pageForm__row__td}>
-                        <FileUploader value={imageUrl} onChange={(value)=>{setImageUrl(value)}}/>
+                        <FileUploader value={imageurl} onChange={ onImageUrlChange }/>
                     </div>
                 </div>
             </div>

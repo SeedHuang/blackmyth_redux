@@ -28,13 +28,12 @@ const Container = styled.div`
 
 
 
-const FileUploader = (props) => {
+const FileUploader = ({value, onChange}) => {
     const fileRef = useRef(null);
     const onBrowserClick = () => {
         fileRef.current.click();
     };
-    const { value } = props;
-    const [ url, setUrl ] = useState(value);
+    
     const onUploadChange = (obj) => {
         if(obj.target.files) {
             const file = obj.target.files[0];
@@ -43,20 +42,19 @@ const FileUploader = (props) => {
             axios.post('//localhost:4000/write/uploadimage', formData).then((response) => {
                 if(response.data.code === 200) {
                     const fileUrl = response.data.data.filename;
-                    setUrl(fileUrl);
-                    props.onChange(fileUrl);
+                    console.log(fileUrl, '>>>>>>')
+                    onChange(fileUrl);
                 }
             }).catch((error) => {
                 console.log(error);
             });
         }
     };
-    useEffect(function(){
-        setUrl(props.value);
-    }, [props.value]);
+
     return (
         <div className={classes.fileuploader}>
-            <input type="text" readOnly="readonly" className={classes.fileUploader__url} value={url}></input>
+            {/* <div className={classes.fileUploader__url}>{value}</div> */}
+            <input type="text" readOnly="readonly" className={classes.fileUploader__url} value={value}></input>
             <div className={classes.fileUploader__button} onClick={onBrowserClick}>浏览文件...</div>
             <div className={classes.fileUploader__hidden}>
                 <input ref={fileRef} type="file" accept="image/*" onChange={onUploadChange}/>

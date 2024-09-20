@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import columns from './columns';
 import Table from "@components/table";
 import ToolBar from '@components/toolBar';
@@ -6,19 +6,23 @@ import Button from '@components/button';
 import HalfScreenDialog from '@components/dialog/halfScreenDialog';
 import Editor from '@pages/editor';
 import PageView from '@components/pageView';
-import { useFetchUnit } from '@hooks/fetchs/units';
 import { useCallback } from 'react';
+import { fetchGetUnits, setShowEditor, setId } from '@store/modules/units';
+import { useSelector, useDispatch} from 'react-redux';
+import { useShowMessageBox } from "@hooks/global";
 import classes from './index.module.scss';
 
 
 
-
 export default function Units() {
-    const [showEditor, setShowEditor] = useState(false);
-    const [id, setId] = useState('');
+    const dispatch = useDispatch();
+    const showMessageBox = useShowMessageBox();
+    const { rows, id, showEditor, errorMessage } = useSelector(state => {
+        return state.units;
+    });
     const onUpdateClick = useCallback((row)=> {
-        setShowEditor(true);
-        setId(row.id);
+        dispatch(setShowEditor(true));
+        dispatch(setId(row.id));
     }, []);
 
     const style = {
@@ -75,22 +79,32 @@ export default function Units() {
         }
     ];
 
-
-    
-    const [ rows, setRows ] = useFetchUnit();
+    useEffect(()=>{
+        (async function() {
+            try {
+                const response = await dispatch(fetchGetUnits())
+            } catch(e) {
+                console.log(e, '>>>>>>>>>>>')
+            }
+        })();
+    }, []);
+    useEffect(() => {
+        if(errorMessage) {
+            showMessageBox({content: errorMessage});
+        }
+    }, [errorMessage]);
 
     function onAddClick () {
-        setShowEditor(true);
+        dispatch(setId(''));
+        dispatch(setShowEditor(true));
     }
     const onEditorConfirmClick =  useCallback(()=>{
-        setShowEditor(false);
-        (async function () {
-            await setRows()
-        })();
+        dispatch(setShowEditor(false));
+        dispatch(fetchGetUnits());
     }, []);
 
     const onEditroCancelClick = useCallback(() => {
-        setShowEditor(false);
+        dispatch(setShowEditor(false));
     }, []);
     
     return (

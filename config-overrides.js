@@ -13,7 +13,8 @@ const pathAlias = {
     '@router': realPath('src/router'),
     '@global': realPath('src/global'),
     '@tool': realPath('src/tool'),
-    '@hooks': realPath('src/hooks')
+    '@hooks': realPath('src/hooks'),
+    '@store': realPath('src/store')
   // 添加更多的alias
 };
 

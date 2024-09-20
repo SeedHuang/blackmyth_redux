@@ -1,9 +1,7 @@
 import axios from 'axios';
-import { GlobalContext } from '../App';
-import { useContent } from 'react';
 export const sendPost = async (url, parameter) => {
     return new Promise((resolve, reject) => {
-        axios.post(url, parameter).then((result)=>{
+        return axios.post(url, parameter).then((result)=>{
             if(result.data.code === 200) {
                 resolve(result.data);
             } else {
@@ -17,7 +15,7 @@ export const sendPost = async (url, parameter) => {
 
 export const sendGet = async (url, parameter = {}) => {
     return new Promise((resolve, reject) => {
-        axios.get(url, {
+        return axios.get(url, {
             params: {
                 ...parameter
             }
@@ -34,11 +32,15 @@ export const sendGet = async (url, parameter = {}) => {
 }
 
 export const combineComponentClass = function (props = {}, originClassName = '') {
+    const otherClasses = Array.prototype.slice.call(arguments, 2);
     const { className = '' } = props;
     const classnames = [originClassName];
     if(className) {
         classnames.push(className);
     }
-    return classnames;
+    return [
+        ...classnames,
+        ...otherClasses
+    ];
 }
 

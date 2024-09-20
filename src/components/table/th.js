@@ -13,10 +13,10 @@ export default function th(props) {
         }
     }
     if(hAlign) {
-        style['justify-content'] = 'center';
+        style['justifyContent'] = 'center';
     }
     if(vAlign) {
-        style['align-items'] = 'center';
+        style['alignItems'] = 'center';
     }
     if(type === 'option') {
         return (

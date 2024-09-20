@@ -1,7 +1,7 @@
 import { createApi,fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const unitsApi = createApi({
-        reducerPath: 'unitApi',
+        reducerPath: 'unitsApi',
         baseQuery: fetchBaseQuery({
             baseUrl: '//localhost:4000/',
             prepareHeaders: (headers = {}, { getState }) => {
@@ -12,13 +12,12 @@ export const unitsApi = createApi({
             getUnits: builder.query({
                 query: () => `get/units`
             }),
-            getUnitsByid: builder.query({
+            getUnitsById: builder.query({
                 query: () => `get/unitById`
             })
         })
 });
 
-console.log(unitsApi)
-export default {};
+export const {useGetUnitsQuery, useGetUnitsByIdQuery} = unitsApi;
 
 

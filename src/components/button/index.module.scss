@@ -1,6 +1,7 @@
 @import '@global/var';
 
 .button {
+    font-family: 'stkaiti';
     display: flex;
     border: 1px solid $bdColor1;
     color: $fontColor1;
@@ -10,4 +11,26 @@
     background-color: $bgColor1;
     margin: $marginS;
     border-radius: $bdRadiusS;
+    background-size: auto 100%;
+    font-size: 23px;
+    font-weight: bolder;
+    &__type {
+        &--normal {
+            background-image: url(./images/button1.png);
+            color: #fff;
+        }
+
+        &--confirm {
+            color: rgb(10, 11, 9);
+            background-image: url(./images/edition-btn.png);
+            &:hover {
+                background-image: url(./images/edition-btn-hover.png);
+            }
+        }
+
+        &--cancel {
+            background-image: url(./images/button1.png);
+            color: #fff;
+        }
+    }
 }

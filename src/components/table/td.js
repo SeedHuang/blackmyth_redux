@@ -33,10 +33,10 @@ export default function td(props) {
     }
 
     if(column.hAlign) {
-        style['justify-content'] = 'center';
+        style['justifyContent'] = 'center';
     }
     if(column.vAlign) {
-        style['align-items'] = 'center';
+        style['alignItems'] = 'center';
     }
 
     if(column.type === 'option') {

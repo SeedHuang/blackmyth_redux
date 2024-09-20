@@ -1,5 +1,5 @@
 import { sendPost, sendGet } from "@tool";
-
+// import reuslt from './reduxApi';
 export const addUnitInfo = async (parameters) => {
     return sendPost('//localhost:4000/write/addUnitInfo', {
         ...parameters
