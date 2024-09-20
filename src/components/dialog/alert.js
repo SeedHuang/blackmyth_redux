@@ -1,6 +1,5 @@
 import WindowDialog from './windowDialog';
 import Button from '@components/button';
-import classes from './alert.module.scss';
 
 
 export default function Alert(props) {
