@@ -6,6 +6,7 @@ import { memo } from 'react';
 function Button(props) {
     const { type = 'normal' } = props;
     let buttonTypeClass = '';
+    
     switch (type) {
         case 'normal':
             buttonTypeClass = 'button__type--normal';

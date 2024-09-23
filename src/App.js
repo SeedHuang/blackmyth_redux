@@ -9,18 +9,11 @@ import MessageBox from '@components/messageBox';
 
 export const GlobalContext = createContext();
 
-
-
 function App() {
     const [ isShow, setIsShow ] = useState(false);
     const [ dialogContent, setDialogContent ] = useState([]);
     const [ dialogMethods, setDialogMethods ] = useState({});
-    const [ messageBoxVisible, setMessageBoxVisible] = useState(false);
-    const [ messageBoxContent , setMessageBoxContent] = useState([])
     const { onConfirmHandler, onCancelHandler } = dialogMethods;
-    const onMessageBoxCloseClick = useCallback(() => {
-
-    }, []);
     const globalValue = {
         // AlertDialog.show({
         //     content: (<div>Hello World</div>),
@@ -45,15 +38,6 @@ function App() {
             hide () {
                 setIsShow(false);
             }
-        },
-        MessageBox: {
-            show({content = []}) {
-                setMessageBoxVisible(true);
-                setMessageBoxContent(content);
-                setTimeout(()=>{
-                    setMessageBoxVisible(false);
-                }, 2000);
-            }
         }
     };
     
@@ -73,13 +57,7 @@ function App() {
                             { dialogContent }
                         </Alert>
                     </div>
-                    <MessageBox
-                        isShow={messageBoxVisible}
-                        onCloseClick={onMessageBoxCloseClick}
-                        type="error"
-                    >
-                        {messageBoxContent}
-                    </MessageBox>
+                    <MessageBox/>
                 </>
             </GlobalContext.Provider>
         </Provider>

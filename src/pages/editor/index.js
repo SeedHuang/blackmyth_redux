@@ -1,26 +1,22 @@
 import { useState, useEffect, memo, useCallback } from 'react';
 import Button from '@components/button';
 import FileUploader from '@components/fileUploader';
-import { addUnitInfo, getCategories, getUnitById, updateUnitInfo } from '@api';
-import { useGetUnitById } from '@hooks/fetchs/units';
 import { 
-    setId, setTitle, setBreif, setDetail, setCate, setImageUrl, setCurrentRecord, resetCurrentRecord,
+    setTitle, setBreif, setDetail, setCate, setImageUrl, resetCurrentRecord,
     fetchAddUnitInfo, fetchUpdateUnitInfo, fetchGetCategories, fetchGetUnitById, fetchGetUnits 
 } from '@store/modules/editor';
 import { useSelector, useDispatch } from 'react-redux';
 import PageView from '@components/pageView';
-import { useShowMessageBox } from '@hooks/global';
+import { showMessageBox } from '@components/messageBox'
 
 import classes from './index.module.scss';
 
 function EditorPage(props) {
     const {onConfirmClick, onCancelClick } = props;
-    const showMessageBox = useShowMessageBox();
     const dispatch = useDispatch();
     const {
         categories,
-        currentRecord,
-        errorMessage
+        currentRecord
     } = useSelector(( state )=> {
         return state.editor;
     });

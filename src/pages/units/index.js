@@ -9,14 +9,10 @@ import PageView from '@components/pageView';
 import { useCallback } from 'react';
 import { fetchGetUnits, setShowEditor, setId } from '@store/modules/units';
 import { useSelector, useDispatch} from 'react-redux';
-import { useShowMessageBox } from "@hooks/global";
 import classes from './index.module.scss';
-
-
 
 export default function Units() {
     const dispatch = useDispatch();
-    const showMessageBox = useShowMessageBox();
     const { rows, id, showEditor, errorMessage } = useSelector(state => {
         return state.units;
     });
@@ -65,15 +61,11 @@ export default function Units() {
             vAlign: 'center',
             setChildren: ({row})=> {
                 return (
-                    [
-                        (
-                            <div key="td_option_update">
-                                <div style={style} onClick={()=>{
-                                    onUpdateClick(row);
-                                }}>修改</div>
-                            </div>
-                        )
-                    ]
+                    <div key="td_option_update">
+                        <div style={style} onClick={()=>{
+                            onUpdateClick(row);
+                        }}>修改</div>
+                    </div>
                 );
             }
         }
@@ -82,12 +74,8 @@ export default function Units() {
     useEffect(()=>{
         dispatch(fetchGetUnits());
     }, []);
+
     
-    useEffect(() => {
-        if(errorMessage) {
-            showMessageBox({content: errorMessage});
-        }
-    }, [errorMessage]);
 
     const onAddClick = useCallback(()=>{
         dispatch(setId(''));
